@@ -18,6 +18,19 @@ Route::get('/testing', function () {
     return ['message' => 'hello world'];
 });
 
+
+//Temp
+Route::get('clients', 'ClientController@index');
+Route::get('clients/{clientId}', 'ClientController@index');
+
+Route::post('clients', 'ClientController@store');
+Route::put('clients/{client}', 'ClientController@update');
+Route::delete('clients/{clientId}', 'ClientController@delete');
+
+Route::group(['middleware' => 'auth:api'], function() {
+
+});
+
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
