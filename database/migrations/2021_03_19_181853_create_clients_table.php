@@ -16,7 +16,22 @@ class CreateClientsTable extends Migration
         Schema::create('clients', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
+            $table->string("Name")->default("Client Name");
+            $table->string("GreetingInitial")->default("Hello");
+            $table->string("Icon")->nullable();
+            $table->string("Logo")->nullable();
+            $table->string("Header")->nullable();
+            $table->string("Website")->nullable();
+            $table->timestamp('CreateDate');
+            $table->integer("ClientStatus")->default(0);
+            $table->bigInteger("F9ClientID");
+            $table->string("CallClosing")->nullable();
+            $table->string("CustomerInfoOpening")->nullable();
+            $table->string("CallBackScript")->nullable();
+            $table->string("SourceScript")->nullable();
+            $table->string("TopPrograms")->nullable();
         });
+
     }
 
     /**

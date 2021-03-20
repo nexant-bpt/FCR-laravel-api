@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Notifications\Notifiable;
@@ -45,7 +45,8 @@ class User extends Authenticatable
         'F9AgentID',
         'DefaultClientID',
         'Role',
-        'BPCUserID'
+        'BPCUserID',
+        'password'
     ];
 
     /**
