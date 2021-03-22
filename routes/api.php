@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\UserController;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -32,12 +34,12 @@ Route::delete('clients/{clientId}', 'ClientController@delete');
 // END OF CLIENTS
 
 // START OF USERS
-Route::get('users', 'UserController@index');
-Route::get('users/{userId}', 'UserController@show');
-Route::post('users/register', 'UserController@register');
-Route::post('users/login', 'UserController@login');
+Route::get('users', [UserController::class, 'index']);
+Route::get('users/{userId}', [UserController::class, 'show']);
 
+Route::post('users/login', [UserController::class, 'login']);
 
+Route::post('users/register', [UserController::class, 'register']);
 
 // END OF USERS
 
