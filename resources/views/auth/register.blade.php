@@ -56,7 +56,7 @@
 
                     <input type="password" name="password_confirmation" id="password_confirmation"
                         placeholder="Password again" class="bg-gray-100 border-2 w-full p-4 rounded-lg"
-                         />
+                    />
 
 
                 </div>

@@ -36,10 +36,9 @@ Route::delete('clients/{clientId}', 'ClientController@delete');
 // START OF USERS
 Route::get('users', [UserController::class, 'index']);
 Route::get('users/{userId}', [UserController::class, 'show']);
-
 Route::post('users/login', [UserController::class, 'login']);
-
 Route::post('users/register', [UserController::class, 'register']);
+Route::delete('users/{userId}', [UserController::class, 'destroy']);
 
 // END OF USERS
 

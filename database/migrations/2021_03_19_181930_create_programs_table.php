@@ -14,8 +14,27 @@ class CreateProgramsTable extends Migration
     public function up()
     {
         Schema::create('programs', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+            $table->id("ProgramID");
+            $table->foreignId('ClientId');
+            $table->string("Name")->nullable();
+            $table->string("Type")->nullable();
+            $table->string("ContactName")->nullable();
+            $table->string("Links")->nullable();
+            $table->string("TransferType")->nullable();
+            $table->string("TransferPhone")->nullable();
+            $table->string("CallScript")->nullable();
+            $table->string("Description")->nullable();
+            $table->integer("Status")->default(0);
+            $table->timestamp('CreateDate');
+            $table->string("TransferIntruction")->nullable();
+            $table->string("Summary")->nullable();
+            $table->string("KeyWords")->nullable();
+            $table->string("AssociatedStates")->nullable();
+            $table->string("AssociatedActions")->nullable();
+            $table->integer("IsTransfer")->default(0);
+            $table->integer("F9Code")->default(0);
+            $table->string("CrossPromotion")->default(0);
+
         });
     }
 
