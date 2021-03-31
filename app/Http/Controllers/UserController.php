@@ -11,18 +11,20 @@ use Illuminate\Support\Facades\Session;
 
 
 use Auth;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
 
     public function index()
     {
+        $userStatus = 1;
+        $users = DB::table('users')->where('UserStatus', '=', $userStatus)->select("UserID", "isBPC", 'F9AgentID', 'UserName', 'UserEmail', 'BPCUserID', 'created_at')->paginate(15);
 
-        $users = User::all();
 
-        return response()->json([
+        return response()->json(
             $users
-        ]);
+        , 200);
     }
 
     // public function login(Request $request)
@@ -59,6 +61,8 @@ class UserController extends Controller
             'password' => 'required',
         ];
 
+        
+
         $validator = Validator::make($request->all(), $rules);
         if ($validator && $validator->passes()) {
 
@@ -68,8 +72,10 @@ class UserController extends Controller
                     // redirect
                     return response()->json(['password' => 'Incorrect login information', 'email' => 'Incorrect login information'], 500);
                 }
-
-                $user = User::where('UserEmail', '=', $request->UserEmail)->firstOrFail();
+                $user = User::where('UserEmail', '=', $request->UserEmail)->get(["UserID", "UserEmail", "UserEmail", "isBPC", "F9AgentID", "Role", "BPCUserID", "created_at", "updated_at", "LastTimeActive"]);
+                Log::debug("THIS IS USER LOGIN");
+                Log::debug($user);
+                Log::debug("THIS IS USER LOGIN");
                 return response()->json([$user], 200);
             } else {
                 return response()->json([
@@ -77,9 +83,12 @@ class UserController extends Controller
                 ], 409);
             }
         } else {
+
+            $errors = $validator->messages();
+            Log::debug($errors);
+
             //TODO Handle your error
-            return response()->json(
-                $validator->errors(),
+            return response()->json($errors,
                 500
             );
         }
@@ -93,6 +102,7 @@ class UserController extends Controller
             'UserName' => 'required|max:255',
             'UserEmail' => 'required|email|max:255',
             'password' => 'required|confirmed',
+            'password_confirmation'=> 'required'
         ];
 
         $validator = Validator::make($request->all(), $rules);
@@ -145,13 +155,36 @@ class UserController extends Controller
             $user
         ], 200);
     }
-    public function show(Request $request, $userId)
-    {
-        $user = User::find($userId);
 
+
+    public function updateUserDetails(Request $request, $userId)
+    {
+
+
+
+
+        $user = User::findOrFail($userId);
+
+
+        $user->update($request->all());
+
+        // query goes here
         return response()->json([
             $user
-        ], 202);
+        ], 200);
+    }
+    public function show(Request $request, $userId)
+    {
+        Log::debug("THIS IS USER ID");
+
+        Log::debug($userId);
+        Log::debug("THIS IS USER ID");
+        $user = DB::table('users')->where('UserID', '=', $userId)->select("UserID", "isBPC", 'F9AgentID', 'UserName', 'UserEmail', 'BPCUserID', 'created_at')->first();
+
+
+        return response()->json(
+            $user
+        , 200);
     }
 
     public function destroy(Request $request, $userId)
