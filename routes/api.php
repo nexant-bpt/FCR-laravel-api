@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ClientController;
 use App\Http\Controllers\UserController;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -27,7 +28,7 @@ Route::post('/register', [RegisterController::class, 'store']);
 // START OF CLIENTS
 Route::get('clients', 'ClientController@index');
 Route::get('clients/{clientId}', 'ClientController@show');
-Route::post('clients', 'ClientController@store');
+Route::post('clients/create', [ClientController::class, 'store']);
 Route::put('clients/{client}', 'ClientController@update');
 Route::delete('clients/{clientId}', 'ClientController@delete');
 
@@ -38,6 +39,10 @@ Route::get('users', [UserController::class, 'index']);
 Route::get('users/{userId}', [UserController::class, 'show']);
 Route::post('users/login', [UserController::class, 'login']);
 Route::post('users/register', [UserController::class, 'register']);
+Route::post('users/create', [UserController::class, 'create']);
+
+Route::post('users/details', [UserController::class, 'updateUserDetails']);
+
 Route::delete('users/{userId}', [UserController::class, 'destroy']);
 
 // END OF USERS
