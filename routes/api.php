@@ -26,7 +26,7 @@ Route::post('/register', [RegisterController::class, 'store']);
 
 //Temp
 // START OF CLIENTS
-Route::get('clients', 'ClientController@index');
+Route::get('clients', [ClientController::class, 'index']);
 Route::get('clients/{clientId}', 'ClientController@show');
 Route::post('clients/create', [ClientController::class, 'store']);
 Route::put('clients/{client}', 'ClientController@update');

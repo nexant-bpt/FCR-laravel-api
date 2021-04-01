@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
 
@@ -16,14 +17,9 @@ class ClientController extends Controller
     public function index()
     {
 
-        $clients = Client::all();
-
-        return response()->json([
-            $clients
-        ]);
 
         $clientStatus = 1;
-        $clients = DB::table('clients')->where('ClientStatus', '=', $clientStatus)->select("ClientID", "created_at", 'updated_at', 'Name', 'GreetingInitial', 'Icon', 'Logo', 'Header', 'Website', 'CreateDate', 'ClientStatus', 'SourceScript', 'TopPrograms')->paginate(15);
+        $clients = DB::table('clients')->where('ClientStatus', '=', $clientStatus)->select("ClientId", "created_at", 'updated_at', 'Name', 'GreetingInitial', 'Icon', 'Logo', 'Header', 'Website', 'CreateDate', 'ClientStatus', 'SourceScript', 'TopPrograms')->paginate(15);
 
 
         return response()->json(
@@ -37,7 +33,9 @@ class ClientController extends Controller
             'Name' => ['required', 'string', 'max:255'],
             'F9ClientID' => ['required', 'integer'],
         ];
-
+        Log::debug("THIS IS REQUEST");
+        Log::debug($request);
+        Log::debug("THIS IS REQUEST");
 
         $validator = Validator::make($request->all(), $rules);
         if ($validator && $validator->passes()) {
@@ -50,7 +48,7 @@ class ClientController extends Controller
             } else {
                 $client = Client::create($request->all());
                 return response()->json([
-                    $client,
+                    "ClientId" => $client->id,
                 ], 201);
             
             }
