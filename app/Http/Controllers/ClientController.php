@@ -120,13 +120,69 @@ class ClientController extends Controller
         }
        
     }
+
+
+    public function updateClientDetails(Request $request, $ClientId)
+    {
+
+       
+
+        if(gettype($ClientId) === "String"){
+            $ClientId = intval($ClientId);
+        }
+
+        if($request->WebSite){
+            $parsedUrl = parse_url($request->WebSite);
+            $schemeKeyExists = array_key_exists('scheme', $parsedUrl);
+         
+
+            if($schemeKeyExists && $parsedUrl['scheme'] === "https"){
+                Log::debug("GOT SCHEME");
+                Log::debug($parsedUrl);
+                Log::debug("GOT SCHEME"); 
+            // }}
+            } else {
+                return response()->json([
+                    'WebSite' =>  'Please enter in a https ',
+                ], 500); 
+            }
+         
+        }
+
+
+       
+        Log::debug("THIS IS REQUEST");
+        Log::debug($request);
+        Log::debug("THIS IS REQUEST");
+    
+
+        $existingClient = DB::table('clients')->where('ClientId', '=', $request->ClientId)->first();
+        if ($existingClient) {
+          
+
+            $client = Client::where('ClientId', $request->ClientId);
+            $client->update($request->all());
+    
+            // 204 no content response since it's a patch
+            return response()->json([
+                $client
+            ], 200);
+            
+        } else {
+            return response()->json([
+                'ClientId' => 'there is no client with the ClientId of ' . $request->input('ClientId'),
+            ], 404); 
+        }
+    
+       
+    }
   
   
 
-    public function show(Request $request, $clientId)
+    public function show(Request $request, $ClientId)
     {
     
-        $existingClient = DB::table('clients')->where('ClientId', '=', $clientId)->first();
+        $existingClient = DB::table('clients')->where('ClientId', '=', $ClientId)->first();
         if ($existingClient) {
           
 
@@ -136,7 +192,7 @@ class ClientController extends Controller
             
         } else {
             return response()->json([
-                'ClientId' => 'there is no client with the ClientId of ' . $request->input('clientId'),
+                'ClientId' => 'there is no client with the ClientId of ' . $request->input('ClientId'),
             ], 404); 
         }
 

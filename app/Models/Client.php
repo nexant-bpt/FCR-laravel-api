@@ -24,7 +24,7 @@ class Client extends Model
         'CreateDate',
         'ClientStatus',
         'F9ClientID',
-        'CallCLosing',
+        'CallClosing',
         'CustomerInfoOpening',
         'CallBackScript',
         'SourceScript',
