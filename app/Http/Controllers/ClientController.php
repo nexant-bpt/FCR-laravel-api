@@ -79,13 +79,67 @@ class ClientController extends Controller
             $client
         ], 200);
     }
+
+    public function updateClientLogo(Request $request)
+    {
+        $rules = [
+            'Logo' => ['required', 'string', 'min:5'],
+            'ClientId' => ['required', 'integer'],
+        ];
+        Log::debug("THIS IS REQUEST");
+        Log::debug($request);
+        Log::debug("THIS IS REQUEST");
+
+        $validator = Validator::make($request->all(), $rules);
+        if ($validator && $validator->passes()) {
+
+
+        $existingClient = DB::table('clients')->where('ClientId', '=', $request->ClientId)->first();
+        if ($existingClient) {
+          
+
+            $client = Client::where('ClientId', $request->ClientId);
+            $client->update(["Logo"=> $request->Logo]);
+    
+            // 204 no content response since it's a patch
+            return response()->json([
+                $client
+            ], 204);
+            
+        } else {
+            return response()->json([
+                'ClientId' => 'there is no client with the ClientId of ' . $request->input('ClientId'),
+            ], 404); 
+        }
+    }else {
+              //TODO Handle your error
+              return response()->json(
+                $validator->errors(),
+                500
+            );
+        }
+       
+    }
+  
+  
+
     public function show(Request $request, $clientId)
     {
-        $client = Client::find($clientId);
+    
+        $existingClient = DB::table('clients')->where('ClientId', '=', $clientId)->first();
+        if ($existingClient) {
+          
 
-        return response()->json([
-            $client
-        ], 202);
+            return response()->json(
+                $existingClient
+            , 200);
+            
+        } else {
+            return response()->json([
+                'ClientId' => 'there is no client with the ClientId of ' . $request->input('clientId'),
+            ], 404); 
+        }
+
     }
 
     public function destroy(Request $request)

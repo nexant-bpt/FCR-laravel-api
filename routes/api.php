@@ -27,9 +27,11 @@ Route::post('/register', [RegisterController::class, 'store']);
 //Temp
 // START OF CLIENTS
 Route::get('clients', [ClientController::class, 'index']);
-Route::get('clients/{clientId}', 'ClientController@show');
+Route::get('clients/{clientId}', [ClientController::class, 'show']);
 Route::post('clients/create', [ClientController::class, 'store']);
 Route::put('clients/{client}', 'ClientController@update');
+Route::patch('clients/logo', [ClientController::class, 'updateClientLogo']);
+
 Route::delete('clients/{clientId}', 'ClientController@delete');
 
 // END OF CLIENTS

@@ -49,14 +49,14 @@ class UserController extends Controller
             if ($existingUser) {
                 if (!auth()->attempt($request->only('UserEmail', 'password'), $request->remember)) {
                     // redirect
-                    return response()->json(['password' => 'Incorrect login information', 'email' => 'Incorrect login information'], 500);
+                    return response()->json(['password' => 'Incorrect login information'], 500);
                 }
                 $user = User::where('UserEmail', '=', $request->UserEmail)->get(["UserID", "UserEmail", "UserEmail", "isBPC", "F9AgentID", "Role", "BPCUserID", "created_at", "updated_at", "LastTimeActive"]);
  
                 return response()->json([$user], 200);
             } else {
                 return response()->json([
-                    'email' => 'there is no user with this email address' . $request->input('UserEmail'),
+                    'UserEmail' => 'there is no user with this email address' . $request->input('UserEmail'),
                 ], 409);
             }
         } else {
