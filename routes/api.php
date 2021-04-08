@@ -24,17 +24,23 @@ Route::get('/testing', function () {
 
 Route::post('/register', [RegisterController::class, 'store']);
 
-//Temp
 // START OF CLIENTS
 Route::get('clients', [ClientController::class, 'index']);
 Route::get('clients/{ClientId}', [ClientController::class, 'show']);
 Route::post('clients/create', [ClientController::class, 'store']);
 Route::post('clients/details/{ClientId}', [ClientController::class, 'updateClientDetails']);
 Route::patch('clients/logo', [ClientController::class, 'updateClientLogo']);
-
 Route::delete('clients/{clientId}', 'ClientController@delete');
-
 // END OF CLIENTS
+
+
+// START OF CALL LOGS
+Route::get('call-logs', [ClientController::class, 'index']);
+Route::get('call-logs/{CallLogId}', [ClientController::class, 'show']);
+Route::post('call-logs/create', [ClientController::class, 'store']);
+Route::post('call-logs/details/{CallLogId}', [ClientController::class, 'updateCallLogDetails']);
+Route::delete('call-logs/{CallLogId}', [ClientController::class, 'destroy']);
+// END OF CALL LOGS
 
 // START OF USERS
 Route::get('users', [UserController::class, 'index']);
