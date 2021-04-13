@@ -27,6 +27,19 @@ class ClientController extends Controller
         , 200);
     }
 
+    public function minimumData()
+    {
+
+
+        $clientStatus = 1;
+        $clients = DB::table('clients')->where('ClientStatus', '=', $clientStatus)->select("ClientId", 'Name')->get();
+
+
+        return response()->json(
+            $clients
+        , 200);
+    }
+
     public function store(Request $request)
     {
         $rules = [

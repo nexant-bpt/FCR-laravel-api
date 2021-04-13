@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\ProgramController;
 use App\Http\Controllers\UserController;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -26,6 +27,8 @@ Route::post('/register', [RegisterController::class, 'store']);
 
 // START OF CLIENTS
 Route::get('clients', [ClientController::class, 'index']);
+Route::get('minimum/clients', [ClientController::class, 'minimumData']);
+
 Route::get('clients/{ClientId}', [ClientController::class, 'show']);
 Route::post('clients/create', [ClientController::class, 'store']);
 Route::post('clients/details/{ClientId}', [ClientController::class, 'updateClientDetails']);
@@ -33,6 +36,14 @@ Route::patch('clients/logo', [ClientController::class, 'updateClientLogo']);
 Route::delete('clients/{clientId}', 'ClientController@delete');
 // END OF CLIENTS
 
+
+// START OF PROGRAMS
+Route::get('programs', [ProgramController::class, 'index']);
+Route::get('clients/minimum-data', [ProgramController::class, 'minimumData']);
+Route::get('programs/{ProgramId}', [ProgramController::class, 'show']);
+Route::post('programs/create', [ProgramController::class, 'store']);
+Route::post('programs/details/{ProgramId}', [ProgramController::class, 'updateProgramDetails']);
+// END OF PROGRAMS
 
 // START OF CALL LOGS
 Route::get('call-logs', [ClientController::class, 'index']);
@@ -48,11 +59,8 @@ Route::get('users/{userId}', [UserController::class, 'show']);
 Route::post('users/login', [UserController::class, 'login']);
 Route::post('users/register', [UserController::class, 'register']);
 Route::post('users/create', [UserController::class, 'create']);
-
 Route::post('users/details', [UserController::class, 'updateUserDetails']);
-
 Route::delete('users/{userId}', [UserController::class, 'destroy']);
-
 // END OF USERS
 
 Route::group(['middleware' => 'auth:api'], function() {
