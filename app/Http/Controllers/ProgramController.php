@@ -16,7 +16,7 @@ class ProgramController extends Controller
 
 
         $programStatus = 1;
-        $programs = DB::table('programs')->select("ProgramID", "Name")->paginate(15);
+        $programs = DB::table('programs')->select("ProgramID", "Name", "ContactName", "CreateDate")->paginate(15);
 
 
         return response()->json(
@@ -83,6 +83,44 @@ class ProgramController extends Controller
         
     }
 
+
+    public function updateProgramDetails(Request $request, $ProgramId)
+    {
+
+       
+
+        if(gettype($ProgramId) === "String"){
+            $ProgramId = intval($ProgramId);
+        }
+
+
+
+       
+        Log::debug("THIS IS REQUEST");
+        Log::debug($request);
+        Log::debug("THIS IS REQUEST");
+    
+
+        $existingProgram = DB::table('programs')->where('ProgramID', '=', $request->ProgramID)->first();
+        if ($existingProgram) {
+          
+
+            $program = Program::where('ProgramID', $request->ProgramID);
+            $program->update($request->all());
+    
+            // 204 no content response since it's a patch
+            return response()->json([
+                $program
+            ], 200);
+            
+        } else {
+            return response()->json([
+                'ProgramId' => 'there is no program with the ProgramID of ' . $request->input('ProgramID'),
+            ], 404); 
+        }
+    
+       
+    }
 
     public function show(Request $request, $ProgramId)
     {

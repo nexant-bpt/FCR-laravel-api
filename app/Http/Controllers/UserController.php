@@ -26,6 +26,18 @@ class UserController extends Controller
             $users
         , 200);
     }
+    public function minimumData()
+    {
+
+
+        $userStatus = 1;
+        $users = DB::table('users')->where('UserStatus', '=', $userStatus)->select("UserID", 'UserName', 'F9AgentID')->get();
+
+
+        return response()->json(
+            $users
+        , 200);
+    }
 
  
 
@@ -74,6 +86,9 @@ class UserController extends Controller
     public function register(Request $request)
     {
 
+        $users = User::all();
+        $UserID = strval($users->count() + 1 + time());
+
         //$data = $request->all();
         $rules = [
             'UserName' => 'required|max:255',
@@ -97,6 +112,7 @@ class UserController extends Controller
                     'UserName' => $request->UserName,
                     'UserEmail' => $request->UserEmail,
                     'password' => Hash::make($request->password),
+                    'UserID' => $UserID
                 ]);
 
                 // sign the user in
@@ -118,6 +134,8 @@ class UserController extends Controller
 
     public function create(Request $request)
     {
+        $users = User::all();
+        $UserID = strval($users->count() + 1 + time());
 
         //$data = $request->all();
         $rules = [
@@ -142,6 +160,8 @@ class UserController extends Controller
                     'UserName' => $request->UserName,
                     'UserEmail' => $request->UserEmail,
                     'password' => Hash::make($request->password),
+                    'UserID' => $UserID
+
                 ]);
 
                 Log::debug("THIS IS CREATE USERS USER");
@@ -151,7 +171,7 @@ class UserController extends Controller
                 Log::debug("THIS IS CREATE USERS USER");
 
                 return response()->json([
-                    'UserID'=> $user->id,
+                    'UserID'=> $user->UserID,
                     // $existingUserTwo,
                 ], 201);
             }
@@ -245,10 +265,7 @@ class UserController extends Controller
     }
     public function show(Request $request, $userId)
     {
-        Log::debug("THIS IS USER ID");
-
-        Log::debug($userId);
-        Log::debug("THIS IS USER ID");
+ 
         $user = DB::table('users')->where('UserID', '=', $userId)->select("UserID", "isBPC", 'F9AgentID', 'UserName', 'UserEmail', 'BPCUserID', 'Role', 'created_at')->first();
 
 
@@ -264,9 +281,7 @@ class UserController extends Controller
             'userId' => 'required',
         ];
 
-        if($userId){
-            $userId = intval($userId);
-        }
+        
        
         $validator = Validator::make(["userId" => $userId], $rules);
         if ($validator && $validator->passes()) {

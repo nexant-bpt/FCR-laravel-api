@@ -27,6 +27,7 @@ class User extends Authenticatable
         'F9AgentID',
         'DefaultClientID',
         'Role',
+        'UserID',
         'BPCUserID',
         'password'
     ];

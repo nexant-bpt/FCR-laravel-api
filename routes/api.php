@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\ProgramController;
 use App\Http\Controllers\UserController;
 use App\Models\User;
@@ -37,9 +38,20 @@ Route::delete('clients/{clientId}', 'ClientController@delete');
 // END OF CLIENTS
 
 
+// START OF CUSTOMERS
+Route::get('customers', [CustomerController::class, 'index']);
+Route::get('minimum/customers', [CustomerController::class, 'minimumData']);
+
+Route::get('customers/{CustomerID}', [CustomerController::class, 'show']);
+Route::post('customers/create', [CustomerController::class, 'store']);
+Route::post('customers/details/{CustomerID}', [CustomerController::class, 'updateCustomerDetails']);
+Route::delete('customers/{CustomerID}', 'ClientController@delete');
+// END OF CUSTOMERS
+
+
 // START OF PROGRAMS
 Route::get('programs', [ProgramController::class, 'index']);
-Route::get('clients/minimum-data', [ProgramController::class, 'minimumData']);
+Route::get('minimum/programs', [ProgramController::class, 'minimumData']);
 Route::get('programs/{ProgramId}', [ProgramController::class, 'show']);
 Route::post('programs/create', [ProgramController::class, 'store']);
 Route::post('programs/details/{ProgramId}', [ProgramController::class, 'updateProgramDetails']);
@@ -55,6 +67,8 @@ Route::delete('call-logs/{CallLogId}', [ClientController::class, 'destroy']);
 
 // START OF USERS
 Route::get('users', [UserController::class, 'index']);
+Route::get('minimum/users', [UserController::class, 'minimumData']);
+
 Route::get('users/{userId}', [UserController::class, 'show']);
 Route::post('users/login', [UserController::class, 'login']);
 Route::post('users/register', [UserController::class, 'register']);

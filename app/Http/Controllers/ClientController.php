@@ -32,7 +32,7 @@ class ClientController extends Controller
 
 
         $clientStatus = 1;
-        $clients = DB::table('clients')->where('ClientStatus', '=', $clientStatus)->select("ClientId", 'Name')->get();
+        $clients = DB::table('clients')->where('ClientStatus', '=', $clientStatus)->select("ClientId", 'Name', 'F9ClientID')->get();
 
 
         return response()->json(
