@@ -16,7 +16,7 @@ class CustomerController extends Controller
     {
 
 
-        $customers = DB::table('customers')->paginate(15);
+        $customers = DB::table('customers')->select("CustomerId", "FirstName", "LastName", "CompressedName", "AccountNumber", "CreateDate", "ClientID")->paginate(15);
 
 
         return response()->json(
